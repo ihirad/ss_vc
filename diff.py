@@ -3,11 +3,12 @@ import json
 import difflib
 import os
 import tempfile
+from convert_yaml_to_query import extract_sql_like_query
 
 SUPERSET_URL = "http://localhost:8088"
 USERNAME = "admin"
 PASSWORD = "admin"
-CHART_ID = 110  
+CHART_ID = 82  
 
 def login_and_get_token():
     session = requests.Session()
@@ -40,8 +41,16 @@ def save_chart_to_file(chart_data):
     fd, file_path = tempfile.mkstemp(suffix=".json")
     with os.fdopen(fd, 'w') as f:
         json.dump(chart_data, f, indent=2)
-    print(f"\n📝 Chart saved to: {file_path}\nEdit the file then press ENTER to continue...")
+
+    print(f"\n📝 Chart saved to: {file_path}")
+
+    # Show interpreted SQL-like query
+    sql_preview = extract_sql_like_query(chart_data)
+    print("\n🔍 Interpreted SQL-like query:\n")
+    print(sql_preview)
+    print("\n✏️ Edit the file and press ENTER when done...")
     input()
+
     with open(file_path, 'r') as f:
         updated_chart_data = json.load(f)
     os.remove(file_path)
