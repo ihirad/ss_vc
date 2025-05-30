@@ -1,0 +1,11 @@
+{
+  "branchName": {
+    "pattern": "W-\\d+/[a-z0-9_-]+",
+    "description": "Use work ID and task name, like W-123/update-chart-title"
+  },
+  "commitMessage": {
+    "pattern": "W-\\d+: .+",
+    "description": "Start commits with work ID like W-123: your message"
+  },
+  "allowList": ["print_diff.txt", "src/superset_vc_crew/.*\\.py"]
+}
